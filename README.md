@@ -29,10 +29,23 @@ Python 3.8.5
 
 ## Quick Start
 
+### Install
 ```
 pip3 install git+https://github.com/jjj-design/pyhees.git
-pyheesjjj sample.json
 ```
+
+or 
+
+```
+git clone  https://github.com/jjj-design/pyhees.git pyheesjjj
+pip3 install -e pyheesjjj
+pyheesjjj pyheesjjj/sample.json
+```
+
+### Run sample
+
+
+###
 
 ## Authors
 
