@@ -1,0 +1,141 @@
+{
+    "region":3,
+    "type":"一般住宅",
+    "reference":{
+       "reference_year":null
+    },
+    "tatekata":"戸建住宅",
+    "sol_region":null,
+    "n_p": "4人以上",
+    "A_A":120.08,
+    "A_MR":29.81,
+    "A_OR":51.34,
+    "ENV":{
+       "method":"当該住宅の外皮面積の合計を用いて評価する",
+       "A_env":307.51,
+       "A_A":120.08,
+       "U_A":0.87,
+       "eta_A_H":4.3,
+       "eta_A_C":2.8
+    },
+    "NV_MR":0,
+    "NV_OR":0,
+    "TS":false,
+    "r_A_ufvnt":null,
+    "underfloor_insulation":null,
+    "mode_H":"居室のみを暖房する方式でかつ主たる居室とその他の居室ともに温水暖房を設置する場合に該当しない場合",
+    "mode_C":"居室のみを冷房する方式",
+    "H_A":null,
+    "H_MR":{
+       "type":"ルームエアコンディショナー",
+       "mode": "連続",
+       "e_class":null,
+       "dualcompressor":false
+    },
+    "H_OR":{
+       "type":"ルームエアコンディショナー",
+       "mode": "連続",
+       "e_class":null,
+       "dualcompressor":false
+    },
+    "H_HS":null,
+    "C_A":null,
+    "C_MR":{
+       "type":"ルームエアコンディショナー",
+       "e_class":null,
+       "dualcompressor":false
+    },
+    "C_OR":{
+       "type":"ルームエアコンディショナー",
+       "e_class":null,
+       "dualcompressor":false
+    },
+    "HW":{
+       "has_bath":true,
+       "hw_type":"コージェネレーションを使用する",
+       "hybrid_category":null,
+       "e_rtd":null,
+       "e_dash_rtd":null,
+       "kitchen_watersaving_A":false,
+       "kitchen_watersaving_C":false,
+       "shower_watersaving_A":false,
+       "shower_watersaving_B":false,
+       "washbowl_watersaving_C":false,
+       "bath_insulation":false,
+       "bath_function":"ふろ給湯機(追焚あり)",
+       "pipe_diameter":"上記以外"
+    },
+    "V":{
+       "type":"ダクト式第二種換気設備又はダクト式第三種換気設備",
+       "input":"評価しない",
+       "N":0.5
+    },
+    "HEX":null,
+    "L":{
+       "has_OR":true,
+       "has_NO":true,
+       "A_OR":51.34,
+       "MR_installed":"設置しない",
+       "OR_installed":"設置しない",
+       "NO_installed":"設置しない"
+    },
+    "SHC":null,
+    "PV":null,
+    "CG":{
+       "package_id":3,
+       "reverse":true,
+       "exhaust":false,
+       "exhaust_priority":"ND",
+       "type_BB_HWH":"G_EJ",
+       "r_DHW_gen_PU_d":0.8942,
+       "r_HWH_gen_PU_d":null,
+       "P_TU_aux_HWH":null,
+       "PU_type":"熱主",
+       "param_E_E_gen_PU_Evt_d":{
+          "a_PU":0.8546,
+          "a_DHW":0.0,
+          "a_HWH":0.0,
+          "b":-5.5854,
+          "c":0.8511
+       },
+       "param_E_F_PU_HVt_d":{
+          "a_DHW":1.0,
+          "a_HWH":0.0
+       },
+       "param_r_H_gen_PU_HVt_d":{
+          "a_DHW":0.0177,
+          "a_HWH":0.0,
+          "b":0.6022
+       },
+       "param_e_E_PU_d":{
+          "a_PU":0.0,
+          "a_DHW":0.00040199999999999996,
+          "a_HWH":0.0,
+          "b":0.3111,
+          "e_E_PU_d_max":0.3396,
+          "e_E_PU_d_min":0.2959
+       },
+       "param_e_H_PU_d":{
+          "a_PU":0.003019,
+          "a_DHW":0.0,
+          "a_HWH":0.0,
+          "b":0.2496,
+          "e_H_PU_d_max":0.4059,
+          "e_H_PU_d_min":0.3351
+       },
+       "P_rtd_PU":750.0,
+       "P_TU_aux_DHW":11.2
+    },
+   "AP": {
+      "mode": "個々の家電機器を計算する方法",
+      "JISYearOfRefrigerator": "2006",
+      "RefrigeratorPower": 330,
+      "ExistsTV": true,
+      "RatedViewTVPower": 125,
+      "RatedStandbyTVPower": 0.15,
+      "ExistsToiletSeatHeater": false,
+      "RatedLaundryPower": 51,
+      "ExistsKettle": false,
+      "RatedKettlePower": 1160
+   }
+ }

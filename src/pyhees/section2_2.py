@@ -247,10 +247,11 @@ def get_E_C_d_t(region, A_A, A_MR, A_OR, A_env, mu_H, mu_C, Q, C_A, C_MR, C_OR, 
 # 8. 機械換気設備の設計一次エネルギー消費量
 # ============================================================================
 
-def calc_E_V(A_A, V, HEX):
+def calc_E_V(n_p, A_A, V, HEX):
     """1 年当たりの機械換気設備の設計一次エネルギー消費量
 
     Args:
+      n_p(float): 仮想居住人数
       A_A(float): 床面積の合計[m^2]
       V(dict): 換気設備仕様辞書
       HEX(dict): 熱交換器型設備仕様辞書
@@ -266,8 +267,6 @@ def calc_E_V(A_A, V, HEX):
     # 電気の量 1kWh を熱量に換算する係数
     f_prim = get_f_prim()
 
-    n_p = get_n_p(A_A)
-
     E_E_V_d_t = calc_E_E_V_d_t(n_p, A_A, V, HEX)
 
     # (6)
@@ -281,10 +280,11 @@ def calc_E_V(A_A, V, HEX):
 # ============================================================================
 
 # 1 年当たりの照明設備の設計一次エネルギー消費量
-def calc_E_L(A_A, A_MR, A_OR, L):
+def calc_E_L(n_p, A_A, A_MR, A_OR, L):
     """1 年当たりの照明設備の設計一次エネルギー消費量
 
     Args:
+      n_p(float): 仮想居住人数
       A_A(float): 床面積の合計 (m2)
       A_MR(float): 主たる居室の床面積 (m2)
       A_OR(float): その他の居室の床面積 (m2)
@@ -300,8 +300,6 @@ def calc_E_L(A_A, A_MR, A_OR, L):
 
     # 電気の量 1kWh を熱量に換算する係数
     f_prim = get_f_prim()
-
-    n_p = get_n_p(A_A)
 
     E_E_L_d_t = calc_E_E_L_d_t(n_p, A_A, A_MR, A_OR, L)
 
@@ -763,20 +761,19 @@ def calc_heating_flag_d(A_A, A_MR, A_OR, HEX, H_MR, H_OR, Q, SHC, TS, mu_H, mu_C
 # 11. その他の設計一次エネルギー消費量
 # ============================================================================
 
-def calc_E_M(A_A):
+def calc_E_M(n_p, A_A, AP):
     """1年当たりのその他の設計一次エネルギー消費量
 
     Args:
+      n_p(float): 仮想居住人数
       A_A(float): 床面積の合計 (m2)
+      AP(dict): 家電の仕様
 
     Returns:
       float: 1年当たりのその他の設計一次エネルギー消費量
 
     """
     
-    # 想定人数
-    n_p = get_n_p(A_A)
-
     # 1 時間当たりの家電の設計一次エネルギー消費量
     E_AP_d_t = calc_E_AP_d_t(n_p)
 
@@ -1159,7 +1156,7 @@ def get_E_E_CG_sell_d_t(E_E_CG_gen_d_t, E_E_CG_h_d_t, has_CG_reverse):
 # 13.設計二次エネルギー消費量
 # ============================================================================
 
-def calc_E_E(region, sol_region, A_A, A_MR, A_OR, A_env, HW, Q, TS, mu_H, mu_C, r_A_ufvnt, underfloor_insulation,
+def calc_E_E(region, sol_region, n_p, A_A, A_MR, A_OR, A_env, HW, Q, TS, mu_H, mu_C, r_A_ufvnt, underfloor_insulation,
             NV_MR, NV_OR, mode_H, mode_C,
             V, L,
             H_A=None,
@@ -1169,13 +1166,15 @@ def calc_E_E(region, sol_region, A_A, A_MR, A_OR, A_env, HW, Q, TS, mu_H, mu_C, 
             L_T_H_d_t_i=None,
             C_A=None, C_MR=None, C_OR=None, L_H_d_t=None,
             L_CS_d_t=None, L_CL_d_t=None,
-            HEX=None, PV=None, solrad=None
+            HEX=None, PV=None, solrad=None,
+            AP=None
             ):
     """1 年当たりの設計消費電力量（kWh/年）
 
     Args:
       region(int): 省エネルギー地域区分
       sol_region(int): 年間の日射地域区分(1-5)
+      n_p(float): 仮想居住人数
       A_A(float): 床面積の合計 (m2)
       A_MR(float): 主たる居室の床面積 (m2)
       A_OR(float): その他の居室の床面積 (m2)
@@ -1212,6 +1211,7 @@ def calc_E_E(region, sol_region, A_A, A_MR, A_OR, A_env, HW, Q, TS, mu_H, mu_C, 
       solrad(ndarray, optional, optional): load_solrad の返り値, defaults to None
       A_env: param L_H_d_t:  (Default value = None)
       L_H_d_t: Default value = None)
+      AP(dict, optional): 家電の仕様
 
     Returns:
       1 年当たりの設計消費電力量（kWh/年）: 1 年当たりの設計消費電力量（kWh/年）
@@ -1289,7 +1289,7 @@ def calc_E_E(region, sol_region, A_A, A_MR, A_OR, A_env, HW, Q, TS, mu_H, mu_C, 
     return Decimal(E_E).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP), E_E_PV_h_d_t, E_E_PV_d_t, E_E_CG_gen_d_t, E_E_CG_h_d_t, E_E_dmd_d_t, E_E_TU_aux_d_t
 
 
-def calc_E_G(region, sol_region, A_A, A_MR, A_OR, A_env, Q, mu_H, mu_C, NV_MR, NV_OR, TS, r_A_ufvnt, HEX, underfloor_insulation,
+def calc_E_G(region, sol_region, n_p, A_A, A_MR, A_OR, A_env, Q, mu_H, mu_C, NV_MR, NV_OR, TS, r_A_ufvnt, HEX, underfloor_insulation,
             H_A, H_MR, H_OR, H_HS, C_A, C_MR, C_OR, V, L, HW, SHC,
             spec_MR, spec_OR, spec_HS, mode_MR, mode_OR, mode_H, mode_C, CG, L_T_H_d_t_i,
             L_HWH, heating_flag_d):
@@ -1298,6 +1298,7 @@ def calc_E_G(region, sol_region, A_A, A_MR, A_OR, A_env, Q, mu_H, mu_C, NV_MR, N
     Args:
       region(int): 省エネルギー地域区分
       sol_region(int): 年間の日射地域区分(1-5)
+      n_p(float): 仮想居住人数
       A_A(float): 床面積の合計 (m2)
       A_MR(float): 主たる居室の床面積 (m2)
       A_OR(float): その他の居室の床面積 (m2)
@@ -1374,12 +1375,13 @@ def calc_E_G(region, sol_region, A_A, A_MR, A_OR, A_env, Q, mu_H, mu_C, NV_MR, N
     return Decimal(E_G).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)
 
 
-def calc_E_K(region, sol_region, A_A, A_MR, A_OR, H_A, spec_MR, spec_OR, spec_HS, mode_MR, mode_OR, CG, L_T_H_d_t_i, L_HWH, heating_flag_d, HW, SHC):
+def calc_E_K(region, sol_region, n_p, A_A, A_MR, A_OR, H_A, spec_MR, spec_OR, spec_HS, mode_MR, mode_OR, CG, L_T_H_d_t_i, L_HWH, heating_flag_d, HW, SHC):
     """1 年当たりの設計灯油消費量（MJ/年）
 
     Args:
       region(int): 省エネルギー地域区分
       sol_region(int): 年間の日射地域区分(1-5)
+      n_p(float): 仮想居住人数
       A_A(float): 床面積の合計 (m2)
       A_MR(float): 主たる居室の床面積 (m2)
       A_OR(float): その他の居室の床面積 (m2)

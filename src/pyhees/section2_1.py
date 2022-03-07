@@ -8,6 +8,7 @@ import numpy as np
 from math import ceil
 
 from pyhees.section2_1_b import get_f_prim
+from pyhees.section2_1_c import get_n_p
 from pyhees.section2_2 import get_E_T_star, calc_E_H, calc_E_C, calc_E_W, calc_E_L, calc_E_V, calc_E_M, calc_heating_load, calc_cooling_load, \
     get_virtual_heating_devices, get_virtual_heatsource, calc_heating_mode, calc_L_HWH, calc_E_E, calc_E_G, calc_E_K, \
     calc_E_UT_H, calc_E_S, get_E_E_CG_h
@@ -59,6 +60,10 @@ def calc_E_T(spec):
     E_G = None
     E_K = None
     UPL = None
+
+    # ---- 居住人数 ----
+
+    n_p = get_n_p(spec['A_A'], spec.get('n_p'))
 
     # ---- 事前データ読み込み ----
 
@@ -174,19 +179,19 @@ def calc_E_T(spec):
     # ---- 照明,換気,その他設備 ----
 
     # 1 年当たりの照明設備の設計一次エネルギー消費量
-    E_L = calc_E_L(spec['A_A'], spec['A_MR'], spec['A_OR'], spec['L'])
+    E_L = calc_E_L(n_p, spec['A_A'], spec['A_MR'], spec['A_OR'], spec['L'])
 
     # 1 年当たりの機械換気設備の設計一次エネルギー消費量
-    E_V = calc_E_V(spec['A_A'], spec['V'], spec['HEX'])
+    E_V = calc_E_V(n_p, spec['A_A'], spec['V'], spec['HEX'])
 
     # 1年当たりのその他の設計一次エネルギー消費量
-    E_M = calc_E_M(spec['A_A'])
+    E_M = calc_E_M(n_p, spec['A_A'], spec.get('AP'))
 
     # ---- 二次エネの計算 ----
 
     # 1 年当たりの設計消費電力量（kWh/年）
     E_E, E_E_PV_h_d_t, E_E_PV_d_t, E_E_CG_gen_d_t, E_E_CG_h_d_t, E_E_dmd_d_t, E_E_TU_aux_d_t = \
-                calc_E_E(spec['region'], spec['sol_region'], spec['A_A'], spec['A_MR'], spec['A_OR'],
+                calc_E_E(spec['region'], spec['sol_region'], n_p, spec['A_A'], spec['A_MR'], spec['A_OR'],
                         A_env, spec_HW, Q, spec['TS'], eta_H, eta_C, spec['r_A_ufvnt'],
                         spec['underfloor_insulation'], spec['NV_MR'], spec['NV_OR'],
                         spec['mode_H'], spec['mode_C'],
@@ -196,13 +201,13 @@ def calc_E_T(spec):
                         L_T_H_d_t_i,
                         spec['C_A'], spec['C_MR'], spec['C_OR'], L_T_H_d_t_i,
                         L_CS_d_t, L_CL_d_t,
-                        spec['HEX'], spec['PV'], solrad
+                        spec['HEX'], spec['PV'], solrad, spec.get('AP')
                         )
     f_prim = get_f_prim()
     E_gen = (np.sum(E_E_PV_d_t) + np.sum(E_E_CG_gen_d_t)) * f_prim / 1000
 
     # 1 年当たりの設計ガス消費量（MJ/年）
-    E_G = calc_E_G(spec['region'], spec['sol_region'], spec['A_A'], spec['A_MR'], spec['A_OR'],
+    E_G = calc_E_G(spec['region'], spec['sol_region'], n_p, spec['A_A'], spec['A_MR'], spec['A_OR'],
                           A_env, Q, eta_H, eta_C, spec['NV_MR'], spec['NV_OR'], spec['TS'],
                           spec['r_A_ufvnt'], spec['HEX'], spec['underfloor_insulation'],
                           spec['H_A'], spec['H_MR'], spec['H_OR'], spec['H_HS'], spec['C_A'], spec['C_MR'],
@@ -212,7 +217,7 @@ def calc_E_T(spec):
                           L_T_H_d_t_i, L_HWH, heating_flag_d)
 
     # 1 年当たりの設計灯油消費量（MJ/年）
-    E_K = calc_E_K(spec['region'], spec['sol_region'], spec['A_A'], spec['A_MR'], spec['A_OR'],
+    E_K = calc_E_K(spec['region'], spec['sol_region'], n_p, spec['A_A'], spec['A_MR'], spec['A_OR'],
                           spec['H_A'],
                           spec_MR, spec_OR, spec_HS, mode_MR, mode_OR, spec['CG'],
                           L_T_H_d_t_i,

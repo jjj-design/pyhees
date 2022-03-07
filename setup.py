@@ -18,4 +18,7 @@ setup(
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     include_package_data=True,
     install_requires=_requires_from_file('requirements.txt'),
+    entry_points={
+        'console_scripts': ['pyheesjjj=pyhees.console:main']
+    }
 )

@@ -1,4 +1,4 @@
-# pyhees
+# pyhees(jjj-design)
 
 This calculation programe based on [the documents of the evaluation of energy consumption performance](https://www.kenken.go.jp/becc/house.html) is released for the purpose of confirming the calculation process and using it for research and study. 
 
@@ -12,6 +12,9 @@ Based on this calculation method, an evaluation program for the Building Energy 
 
 この算定方法に基づき、建築物省エネ法における評価プログラム（ https://house.lowenergy.jp/ ）が開発されています。従って公開されている評価プログラムと、ここで公開する計算ファイルは原則として同じ算定方法であるといえます。
 
+このリポジトリは、オリジナルファイルをフォークして、[自立循環型住宅プロジェクト](https://www.jjj-design.org/jjj/jjj-index.html)において検討されているアルゴリズムを追加実装しています。追加検討仕様は、[こちら](https://jjj-design.github.io/jjj_logic_specification/)に公開されています。
+
+This repository forks the original file and implements additional algorithms being considered in the [Self-Sustaining Circular Housing Project](https://www.jjj-design.org/jjj/jjj-index.html). Additional study specifications are available at [here](https://jjj-design.github.io/jjj_logic_specification/).
 
 ## Sponsors
 
@@ -27,11 +30,9 @@ Python 3.8.5
 ## Quick Start
 
 ```
-pip3 install git+https://github.com/BRI-EES-House/pyhees.git
+pip3 install git+https://github.com/jjj-design/pyhees.git
+pyheesjjj sample.json
 ```
-
-## Examples
-see examples [here](https://github.com/BRI-EES-House/pyhees_example)
 
 ## Authors
 
