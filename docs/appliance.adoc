@@ -1,0 +1,121 @@
+[[家電設備オブジェクト]]
+== 家電設備オブジェクト
+
+=== 概要
+
+家電設備を表すオブジェクトです。次の表のキーから構成されます。
+
+[width="100%",cols="30%, 20%, 50%",options="header",]
+|===
+|キー |型 |意味
+|mode |文字列 |家電の指定方法
+
+|JISYearOfRefrigerator |文字列 |冷蔵庫 JIS C 9801の制定・改正年。
+
+|RefrigeratorPower |数値 |冷蔵庫の年間消費電力量[kWh]
+
+|ExistsTV |真偽値 |液晶テレビの有無
+
+|RatedViewTVPower |数値 |液晶テレビの稼働時の定格消費電力[W]
+
+|RatedStandbyTVPower |数値 |液晶テレビの待機時の定格消費電力[W]
+
+|ExistsToiletSeatHeater |真偽値 |暖房便座の有無
+
+|RatedLaundryPower |数値 |洗濯機の標準コースの定格消費電力量[Wh]
+
+|ExistsKettle |真偽値 |電気ケトルの有無
+
+|RatedKettlePower |数値 |電気ケトルの定格消費電力[W]
+|===
+
+=== キー
+
+==== mode キー
+
+家電の指定方法は次の表の値を指定します。型は文字列で指定します。
+
+[width="100%",cols="30%,70%",options="header",]
+|===
+|値 |意味
+|個々の家電機器を計算する方法 ||個々の家電機器を計算する方法を採用します。
+|省エネ基準で定められた値を使用する方法 |省エネ基準で定められた値を使用する方法を採用します。
+|===
+
+==== JISYearOfRefrigerator キー
+
+冷蔵庫 JIS C 9801の制定・改正年は次の表の値を指定します。型は文字列で指定します。
+
+[width="100%",cols="30%,70%",options="header",]
+|===
+|値 |意味
+|1999 |1999年
+|2006 |2006年
+|2015 |2015年
+|===
+
+==== ExistsTV キー
+
+液晶テレビの有無は次の表の値を指定します。型はbooleanで指定します。
+
+[width="100%",cols="30%,70%",options="header",]
+|===
+|値 |意味
+|False |なし
+|True |あり
+|===
+
+==== RatedViewTVPower キー
+
+液晶テレビの稼働時の定格消費電力[W]を小数で指定します。
+
+==== RatedStandbyTVPower キー
+
+液晶テレビの待機時の定格消費電力[W]を小数で指定します。
+
+==== ExistsToiletSeatHeater キー
+
+暖房便座の有無を次の表の値から指定します。型はbooleanで指定します。
+
+[width="100%",cols="30%,70%",options="header",]
+|===
+|値 |意味
+|False |なし
+|True |あり
+|===
+
+==== RatedLaundryPower キー
+
+洗濯機の標準コースの定格消費電力量[Wh]を小数で指定します。
+
+==== ExistsKettle キー
+
+電気ケトルの有無を次の表の値から指定します。型はbooleanで指定します。
+
+[width="100%",cols="30%,70%",options="header",]
+|===
+|値 |意味
+|False |なし
+|True |あり
+|===
+
+==== RatedKettlePower キー
+
+電気ケトルの定格消費電力[W]を小数で指定します。
+
+=== 家電設備オブジェクトの例
+
+----
+"AP":{
+  "mode": "個々の家電機器を計算する方法",
+  "JISYearOfRefrigerator": "2006",
+  "RefrigeratorPower": 330,
+  "ExistsTV": true,
+  "RatedViewTVPower": 125,
+  "RatedStandbyTVPower": 0.15,
+  "ExistsToiletSeatHeater": false,
+  "RatedLaundryPower": 51,
+  "ExistsKettle": false,
+  "RatedKettlePower": 1160
+}
+----
